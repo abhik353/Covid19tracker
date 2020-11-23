@@ -19,9 +19,9 @@ class App extends React.Component {
         const {data} = this.state
         return (
             <div className={styles.container}>
-                <h1>hello</h1>
                 <Cards data={data}/>
-                <Chart/>
+                <CountryPicker/>
+                <Chart/> 
                 
             </div>
         )

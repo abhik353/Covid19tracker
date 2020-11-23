@@ -1,9 +1,43 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
+import {fetchDailyData} from '../../api'
+import {Line, Bar} from 'react-chartjs-2'
+import styles from './Chart.module.css'
 
 const Chart = () => {
+    const [dailyData, setDailyData] = useState({})
+    
+    useEffect(async () => {
+        const fetchApi = async () => {
+            setDailyData(await fetchDailyData())
+        }
+        fetchApi()
+    },[])
+
+    const lineChart = (
+        dailyData.length ?
+        (<Line
+            data={{
+                labels: dailyData.map(({date}) => date),
+                datasets: [{
+                    data: dailyData.map(({confirmed}) => confirmed),
+                    label: 'Infected',
+                    borderColor: '#520CA9',
+                    fill: true
+                }, {
+                    data: dailyData.map(({deaths}) => deaths),
+                    label: 'Infected',
+                    borderColor: '#A90C1F',
+                    backgroundColor: '#EC6666',
+                    fill: true
+                }],
+
+            }}
+        />) : null
+    )
+
     return (
-        <div>
-            chart
+        <div className={styles.container}>
+            {lineChart}
         </div>
     )
 }
